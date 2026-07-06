@@ -8,12 +8,15 @@
 [![Stars](https://img.shields.io/github/stars/timoncool/hermes-ru-locale?style=flat-square)](https://github.com/timoncool/hermes-ru-locale/stargazers)
 [![Last Commit](https://img.shields.io/github/last-commit/timoncool/hermes-ru-locale?style=flat-square)](https://github.com/timoncool/hermes-ru-locale/commits)
 [![Hermes](https://img.shields.io/badge/Hermes%20Agent-v0.18.0-6366f1?style=flat-square)](https://github.com/nousresearch/hermes-agent)
+[![Status](https://img.shields.io/badge/status-beta-orange?style=flat-square)](https://github.com/timoncool/hermes-ru-locale)
 
 ![Скриншот Hermes Agent на русском](docs/screenshots/screenshot-main.png)
 
 </div>
 
 ## Описание
+
+> ⚠️ **Бета-версия.** Этот перевод я делал для себя как тестовый проект для Hermes Agent. Всё работает, но могут быть шероховатости — если что, пишите в Issues.
 
 Полная русская локализация десктопного приложения [Hermes Agent](https://github.com/nousresearch/hermes-agent) от Nous Research — все 2218 ключей интерфейса переведены на русский язык. Перевод сделан через `defineLocale()` — механизм частичных переводов Hermes, поэтому **не ломается при обновлениях** (новые строки просто остаются на английском).
 
@@ -113,6 +116,19 @@ npm run build
 ![Выбор языка](docs/screenshots/screenshot-appearance.png)
 
 </details>
+
+## Решение проблем
+
+### Hermes не запускается после установки
+
+У меня регулярно Hermes отказывался запускаться после правок в исходниках. Лечится просто:
+
+1. Скачайте свежий установщик Hermes Agent
+2. Запустите его — установка **поверх** существующей (данные сохранятся: конфиги, сессии, навыки, память)
+3. После переустановки — запустите `install.ps1` из этого репо заново
+4. Hermes снова работает, русский язык на месте
+
+Если что-то пошло не так — **ваш же Hermes вам и поможет с этим справиться.** Спросите у него в чате: «Hermes не запускается после установки русской локали, что делать?» — он в курсе своей архитектуры и подскажет.
 
 ## Обновление перевода
 
