@@ -104,22 +104,13 @@ npm run build
 
 ## Скриншоты
 
-<details>
-<summary>Hermes Agent на русском — скриншоты интерфейса</summary>
+![Главное окно Hermes Agent на русском](docs/screenshots/screenshot-main.png)
 
-### Главное окно
-![Главное окно](docs/screenshots/screenshot-main.png)
+![Окно чата на русском](docs/screenshots/screenshot-chat.png)
 
-### Чат
-![Чат](docs/screenshots/screenshot-chat.png)
+![Страница настроек на русском](docs/screenshots/screenshot-settings.png)
 
-### Настройки
-![Настройки](docs/screenshots/screenshot-settings.png)
-
-### Выбор языка
-![Выбор языка](docs/screenshots/screenshot-appearance.png)
-
-</details>
+![Выбор языка в настройках](docs/screenshots/screenshot-appearance.png)
 
 ## Решение проблем
 
