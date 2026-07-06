@@ -34,29 +34,25 @@
 
 ## Быстрый старт
 
-1. **Клонировать**
-   ```bash
-   git clone https://github.com/timoncool/hermes-ru-locale.git
-   cd hermes-ru-locale
-   ```
+### Самый простой способ — через Hermes
 
-2. **Установить**
-   ```powershell
-   powershell -ExecutionPolicy Bypass -File install.ps1
-   ```
+Откройте чат с Hermes и скажите:
 
-3. **Выбрать язык**
-   ```
-   Hermes Desktop → Settings → Appearance → Русский
-   ```
+> Установи русскую локализацию из https://github.com/timoncool/hermes-ru-locale
 
-### Установка через сам Hermes
+Hermes сам склонирует репо, скопирует файлы, пропатчит конфиги TypeScript и соберёт десктоп. После этого:
 
-Самый простой способ — попросите Hermes установить локализацию:
+```
+Hermes Desktop → Settings → Appearance → Русский
+```
 
-> Скопируй и переведи на русский язык интерфейс Hermes Agent из репозитория https://github.com/timoncool/hermes-ru-locale
+### Ручная установка (PowerShell)
 
-Hermes сам склонирует репо, скопирует файлы, пропатчит конфиги и соберёт десктоп. Вы просто даёте ссылку и говорите «установи».
+```powershell
+git clone https://github.com/timoncool/hermes-ru-locale.git
+cd hermes-ru-locale
+powershell -ExecutionPolicy Bypass -File install.ps1
+```
 
 ## Ручная установка
 
