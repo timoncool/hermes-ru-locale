@@ -104,8 +104,6 @@ npm run build
 
 ## Скриншоты
 
-![Главное окно Hermes Agent на русском](docs/screenshots/screenshot-main.png)
-
 ![Окно чата на русском](docs/screenshots/screenshot-chat.png)
 
 ![Страница настроек на русском](docs/screenshots/screenshot-settings.png)
