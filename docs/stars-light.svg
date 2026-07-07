@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="Segoe UI, sans-serif">
+<rect width="800" height="420" fill="#ffffff" rx="8"/>
+<text x="64" y="30" fill="#1f2328" font-size="17" font-weight="700">★ Star History — timoncool/hermes-ru-locale</text>
+<text x="776" y="30" fill="#1f2328" font-size="14" text-anchor="end">8 stars · updated 2026-07-07</text>
+<line x1="64" y1="364.0" x2="776" y2="364.0" stroke="#d1d9e0" stroke-width="1"/><text x="54" y="368.0" fill="#1f2328" font-size="13" text-anchor="end">0</text><line x1="64" y1="285.0" x2="776" y2="285.0" stroke="#d1d9e0" stroke-width="1"/><text x="54" y="289.0" fill="#1f2328" font-size="13" text-anchor="end">2</text><line x1="64" y1="206.0" x2="776" y2="206.0" stroke="#d1d9e0" stroke-width="1"/><text x="54" y="210.0" fill="#1f2328" font-size="13" text-anchor="end">4</text><line x1="64" y1="127.0" x2="776" y2="127.0" stroke="#d1d9e0" stroke-width="1"/><text x="54" y="131.0" fill="#1f2328" font-size="13" text-anchor="end">6</text><line x1="64" y1="48.0" x2="776" y2="48.0" stroke="#d1d9e0" stroke-width="1"/><text x="54" y="52.0" fill="#1f2328" font-size="13" text-anchor="end">8</text>
+<path d="M64.0,364.0 L64.0,324.5 L64.2,285.0 L64.5,245.5 L105.6,206.0 L148.2,166.5 L319.5,127.0 L331.9,87.5 L640.1,48.0 L776.0,48.0" fill="none" stroke="#0969da" stroke-width="2.5" stroke-linejoin="round"/>
+<circle cx="776.0" cy="48.0" r="4" fill="#0969da"/>
+<text x="64.0" y="388" fill="#1f2328" font-size="13" text-anchor="middle">Jul 06, 2026</text><text x="301.3" y="388" fill="#1f2328" font-size="13" text-anchor="middle">Jul 07, 2026</text><text x="538.7" y="388" fill="#1f2328" font-size="13" text-anchor="middle">Jul 07, 2026</text><text x="776.0" y="388" fill="#1f2328" font-size="13" text-anchor="middle">Jul 07, 2026</text>
+</svg>
