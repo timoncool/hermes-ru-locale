@@ -1,5 +1,6 @@
-import { defineLocale } from './define-locale'
 import { RU_FIELD_DESCRIPTIONS, RU_FIELD_LABELS } from '@/app/settings/ru-constants'
+
+import { defineLocale } from './define-locale'
 
 export const ru = defineLocale({
   common: {
@@ -60,7 +61,8 @@ export const ru = defineLocale({
       backendStopped: 'Бэкенд остановлен',
       desktopBootFailed: 'Ошибка запуска десктопа',
       gatewaySignInRequired: 'Требуется вход в шлюз',
-      ipcBridgeUnavailable: 'IPC-мост десктопа недоступен.'
+      ipcBridgeUnavailable: 'IPC-мост десктопа недоступен.',
+        gatewayConnectionLost: "Соединение со шлюзом потеряно"
     },
     failure: {
       title: 'Не удалось запустить Hermes',
@@ -74,7 +76,7 @@ export const ru = defineLocale({
       useLocalGateway: 'Использовать локальный шлюз',
       openLogs: 'Открыть журналы',
       repairHint: 'Восстановление запускает установщик заново и может занять несколько минут на новом компьютере.',
-      remoteSignInHint: 'Открывает окно входа в шлюз. «Локальный шлюз» переключает на встроенный бэкенд.',
+      remoteSignInHint: signInLabel => `Завершает сохранённую удалённую браузерную сессию, затем открывает ${signInLabel}. Чтобы переключиться на встроенный бэкенд, используйте локальный шлюз.`,
       hideRecentLogs: 'Скрыть недавние журналы',
       showRecentLogs: 'Показать недавние журналы',
       signedInTitle: 'Вход выполнен',
@@ -84,7 +86,11 @@ export const ru = defineLocale({
       signInFailed: 'Ошибка входа',
       signInToRemoteGateway: 'Войти в удалённый шлюз',
       signInWithProvider: provider => `Войти через ${provider}`,
-      identityProvider: 'ваш провайдер аутентификации'
+      identityProvider: 'ваш провайдер аутентификации',
+        gatewaySettings: "Настройки шлюза",
+        back: "Назад",
+        signOutAndSignIn: "Выйти и войти снова",
+        remoteFailureHint: "Проверьте URL шлюза и выполните вход в настройках шлюза или переключитесь на локальный шлюз."
     }
   },
 
@@ -133,8 +139,21 @@ export const ru = defineLocale({
       transcriptionUnavailable: 'Транскрипция голоса пока недоступна.',
       tryRecordingAgain: 'Попробуйте записать снова.',
       unavailable: 'Голос недоступен'
+    },
+      installMethodUnsupportedTitle: "Неподдерживаемый способ установки",
+      native: {
+          approvalTitle: "Требуется подтверждение",
+          approveAction: "Одобрить",
+          rejectAction: "Отклонить",
+          inputTitle: "Требуется ввод",
+          inputBody: "Hermes ожидает вашего ответа.",
+          turnDoneTitle: "Hermes завершил работу",
+          turnDoneBody: "Ответ готов.",
+          turnErrorTitle: "Ошибка выполнения",
+          backgroundDoneTitle: "Фоновая задача завершена",
+          backgroundFailedTitle: "Фоновая задача завершилась с ошибкой"
     }
-  },
+},
 
   titlebar: {
     hideSidebar: 'Скрыть боковую панель',
@@ -149,8 +168,10 @@ export const ru = defineLocale({
     unmuteHaptics: 'Включить тактильную отдачу',
     openSettings: 'Открыть настройки',
     openStarmap: 'Открыть звёздную карту',
-    openKeybinds: 'Горячие клавиши'
-  },
+    openKeybinds: 'Горячие клавиши',
+      layoutEditor: "Редактор разметки",
+      layoutEditorTitle: "Редактор разметки — ⌘-клик сбрасывает разметку"
+},
 
   keybinds: {
     title: 'Горячие клавиши',
@@ -191,7 +212,6 @@ export const ru = defineLocale({
       'view.showFiles': 'Показать файловый браузер',
       'view.showTerminal': 'Показать терминал',
       'view.terminalSelection': 'Отправить выделение терминала в композер',
-      'view.closePreviewTab': 'Закрыть вкладку предпросмотра',
       'view.flipPanes': 'Поменять стороны панелей',
       'appearance.toggleMode': 'Переключить светлую / тёмную тему',
       'profile.default': 'Переключиться на профиль по умолчанию',
@@ -225,9 +245,30 @@ export const ru = defineLocale({
       'composer.slash': 'Палитра слэш-команд',
       'composer.help': 'Быстрая справка',
       'composer.history': 'Перебор истории / всплывающих окон',
-      'composer.cancel': 'Закрыть окно · отменить запуск'
-    }
-  },
+      'composer.cancel': 'Закрыть окно · отменить запуск',
+        "session.newTab": "Новая вкладка сессии",
+        "session.newWindow": "Новая сессия в окне",
+        "session.slot.1": "Перейти к последней сессии 1",
+        "session.slot.2": "Перейти к последней сессии 2",
+        "session.slot.3": "Перейти к последней сессии 3",
+        "session.slot.4": "Перейти к последней сессии 4",
+        "session.slot.5": "Перейти к последней сессии 5",
+        "session.slot.6": "Перейти к последней сессии 6",
+        "session.slot.7": "Перейти к последней сессии 7",
+        "session.slot.8": "Перейти к последней сессии 8",
+        "session.slot.9": "Перейти к последней сессии 9",
+        "workspace.newWorktree": "Новое рабочее дерево",
+        "composer.voice": "Начать / остановить голосовой разговор",
+        "view.toggleReview": "Показать / скрыть панель обзора",
+        "view.newTerminal": "Новый терминал",
+        "view.nextTerminal": "Следующий терминал",
+        "view.prevTerminal": "Предыдущий терминал",
+        "view.closeTerminal": "Закрыть терминал",
+        "view.closeTab": "Закрыть вкладку",
+        "view.reopenTab": "Открыть закрытую вкладку"
+    },
+      search: "Поиск сочетаний клавиш…"
+},
 
   language: {
     label: 'Язык',
@@ -258,7 +299,9 @@ export const ru = defineLocale({
       mcp: 'Поиск MCP-серверов...',
       archivedChats: 'Архивные чаты',
       about: 'О приложении',
-      notifications: 'Уведомления'
+      notifications: 'Уведомления',
+        keybinds: "Сочетания клавиш",
+        plugins: "Плагины"
     },
     sections: {
       model: 'Модель',
@@ -373,7 +416,12 @@ export const ru = defineLocale({
         noneAvailable: 'Нет доступных питомцев',
         turnOnFailed: 'Не удалось включить питомца',
         turnOffFailed: 'Не удалось выключить питомца'
-      }
+      },
+        uiScaleTitle: "Масштаб интерфейса",
+        backdropTitle: "Фон чата",
+        backdropDesc: "Едва заметное изображение статуи за областью диалога.",
+        uiScaleDesc: (percent: number) =>
+                    `Масштабирует текст и элементы управления во всём приложении. Также работает Cmd/Ctrl с +, - и 0. Текущий: ${percent}%.`
     },
     fieldLabels: RU_FIELD_LABELS,
     fieldDescriptions: RU_FIELD_DESCRIPTIONS,
@@ -504,6 +552,39 @@ export const ru = defineLocale({
       testFailed: 'Тест удалённого шлюза не удался',
       applyFailed: 'Не удалось применить настройки шлюза',
       saveFailed: 'Не удалось сохранить',
+        modeTitle: "Режим подключения",
+        remoteAuthHint: "Облачные шлюзы используют OAuth или логин и пароль; самостоятельно развёрнутые — токен сессии.",
+        cloudTitle: "Hermes Cloud",
+        cloudDesc: "Войдите в Hermes Cloud один раз и выбирайте агентов из своего аккаунта — без ручного ввода URL.",
+        cloudSignInTitle: "Hermes Cloud",
+        cloudSignIn: "Войти в Hermes Cloud",
+        cloudSignedIn: "Вы вошли в Hermes Cloud",
+        cloudNeedsSignIn: "Войдите в Hermes Cloud, чтобы увидеть агентов вашего аккаунта.",
+        cloudSignedInDesc: "Вы авторизованы. Выберите агента ниже — сессия обновляется автоматически.",
+        cloudAgentsTitle: "Ваши агенты",
+        cloudOrgPickerTitle: "Выберите организацию",
+        cloudOrgSelect: "Выбрать",
+        cloudOrgChange: "Сменить организацию",
+        cloudLoadingAgents: "Загрузка агентов…",
+        cloudNoAgents: {
+            before: "Агенты в этом аккаунте не найдены. Создайте его на ",
+            linkText: "портале Nous",
+            after: ", затем обновите."
+        },
+        cloudRefresh: "Обновить",
+        cloudConnect: "Подключиться",
+        cloudConnecting: "Подключение…",
+        cloudDiscoverFailed: "Не удалось загрузить агентов Hermes Cloud",
+        cloudConnectFailed: "Не удалось подключиться к агенту",
+        cloudSignInFailed: "Ошибка входа в Hermes Cloud",
+        cloudSignedOutTitle: "Выход из Hermes Cloud выполнен",
+        cloudSignedOutMessage: "Сессия Hermes Cloud завершена.",
+        cloudConnectedTitle: "Подключено",
+        cloudConnectedPill: "Подключено",
+        cloudAgentProvisioning: "Инициализация…",
+        cloudOrgRole: role => `Роль: ${role}`,
+        cloudConnectedTo: name => `Подключено к ${name}.`,
+        cloudStatusLabel: status => `Статус: ${status}`
     },
     keys: {
       loading: 'Загрузка возможностей...',
@@ -601,7 +682,10 @@ export const ru = defineLocale({
         mcp: { label: 'MCP', hint: 'Маршрутизация MCP-инструментов' },
         title_generation: { label: 'Генерация заголовков', hint: 'Заголовки сессий' },
         curator: { label: 'Куратор', hint: 'Проверка использования навыков' }
-      }
+      },
+        fallbackAdd: "Добавить запасную",
+        fallbackEmpty: "Запасные модели не заданы — при сбое используется модель по умолчанию.",
+        notInCatalog: "отсутствует в списке моделей провайдера — запросы могут переключиться на резервную."
     },
     providers: {
       connectAccount: 'Подключить аккаунт',
@@ -625,7 +709,11 @@ export const ru = defineLocale({
       noProviderKeys: 'Нет доступных API-ключей провайдеров.',
       searchKeys: 'Поиск ключей…',
       noKeysMatch: 'Совпадений не найдено',
-      loading: 'Загрузка возможностей...'
+      loading: 'Загрузка возможностей...',
+        localEndpoint: {
+            title: "Локальный / произвольный эндпоинт",
+            description: "Подключите Hermes к любому эндпоинту, совместимому с OpenAI (Zyphra, vLLM, llama.cpp, Ollama и др.)."
+        }
     },
     sessions: {
       loading: 'Загрузка возможностей...',
@@ -694,8 +782,25 @@ export const ru = defineLocale({
       modelSelectedTitle: 'Модель выбрана',
       modelSelectedMessage: model => `Модель «${model}» выбрана.`,
       failedSelectModel: model => `Не удалось выбрать модель «${model}»`
+    },
+      plugins: {
+          title: "Плагины рабочего стола",
+          blurb: "UI-расширения, загруженные в приложение — встроенные в сборку или помещённые в папку desktop-plugins (включая написанные Hermes). При отключении плагин выгружается немедленно и остаётся отключённым после перезапуска.",
+          openFolder: "Открыть папку плагинов",
+          rescan: "Пересканировать",
+          reveal: "Показать в файловом менеджере",
+          enable: "Включить",
+          disable: "Отключить",
+          failed: "ошибка",
+          empty: "Плагины рабочего стола не установлены.",
+          kinds: {
+              bundled: "встроенный",
+              disk: "на диске",
+              runtime: "runtime"
+        },
+          count: n => `${n} установлено`
     }
-  },
+},
 
   skills: {
     tabSkills: 'Навыки',
@@ -775,10 +880,10 @@ export const ru = defineLocale({
       files: 'Файлы',
       noReadme: 'Нет README',
       trust: {
-        safe: 'Безопасный',
-        caution: 'Осторожно',
-        dangerous: 'Опасный'
-      },
+          builtin: "встроенный",
+          trusted: "доверенный",
+          community: "сообщество"
+    },
       verdictSafe: 'Безопасно',
       verdictCaution: 'Требует внимания',
       verdictDangerous: 'Потенциально опасно',
@@ -1061,8 +1166,9 @@ export const ru = defineLocale({
       actionFailed: name => `${name} не удалось`,
       running: 'Выполняется…',
       viewLog: 'Просмотр журнала'
-    }
-  },
+    },
+      commands: "Команды"
+},
 
   messaging: {
     search: 'Поиск',
@@ -1384,8 +1490,11 @@ export const ru = defineLocale({
     optional: 'Необязательно',
     promptScheduleRequired: 'Промпт и расписание обязательны.',
     saveChanges: 'Сохранить изменения',
-    createAction: 'Создать cron-задачу'
-  },
+    createAction: 'Создать cron-задачу',
+      promptRequired: "Промпт обязателен.",
+      scheduleRequired: "Расписание обязательно.",
+      scriptOnlyEditHint: "Задание только со скриптом (без AI-промпта). ID задания:"
+},
 
   artifacts: {
     search: 'Поиск',
@@ -1473,9 +1582,81 @@ export const ru = defineLocale({
       ageNow: 'сейчас',
       ageDay: 'д',
       ageHour: 'ч',
-      ageMin: 'м'
+      ageMin: 'м',
+        branchFrom: "Ветка",
+        newWindow: "Новое окно",
+        hideTabBar: "Скрыть панель вкладок",
+        openInNewTab: "Открыть в новой вкладке",
+        openInSplit: "Открыть в разделённом виде",
+        finishedUnread: "Завершено — не прочитано",
+        backgroundRunning: "Фоновая задача выполняется",
+        handoffOrigin: platform => `Передано из ${platform}`,
+        ownedByProfile: profile => `Профиль: ${profile}`,
+        untitledChat: id => `Чат ${id}`
+    },
+      noProject: "Нет проекта",
+      projectEmpty: "Сессий пока нет",
+      projects: {
+          sectionLabel: "Проекты",
+          newButton: "Новый проект",
+          createTitle: "Новый проект",
+          createDesc: "Задайте имя рабочего пространства и добавьте одну или несколько папок.",
+          renameTitle: "Переименовать проект",
+          addFolderTitle: "Добавить папку",
+          namePlaceholder: "напр. Skunkworks",
+          foldersLabel: "Папки",
+          ideaLabel: "Идея",
+          ideaPlaceholder: "О чём этот проект? (сохраняется в IDEA.md)",
+          ideaGenerate: "Сгенерировать идею",
+          ideaGenerating: "Генерация…",
+          ideaShuffle: "Перемешать шаблоны",
+          noFolders: "Папки ещё не добавлены.",
+          addFolder: "Добавить папку",
+          primaryBadge: "основная",
+          removeFolder: "Удалить",
+          create: "Создать",
+          menu: "Действия с проектом",
+          menuRename: "Переименовать",
+          menuAppearance: "Оформление",
+          noColor: "Без цвета",
+          menuAddFolder: "Добавить папку",
+          menuSetActive: "Сделать активным",
+          menuDelete: "Удалить",
+          reveal: "Показать в папке",
+          copyPath: "Копировать путь",
+          removeFromSidebar: "Скрыть из боковой панели",
+          createFailed: "Не удалось создать проект",
+          staleBackend: "Обновите бэкенд Hermes для создания проектов — ваш бэкенд устарел по сравнению с этим приложением (Настройки → Обновления → Бэкенд).",
+          deleteConfirm: "Проект будет удалён из Hermes. Файлы, git-репозитории и рабочие деревья останутся нетронутыми.",
+          startWork: "Новое рабочее дерево",
+          newWorktreeTitle: "Новое рабочее дерево",
+          newWorktreeDesc: "Укажите имя ветки для этого рабочего дерева.",
+          branchPlaceholder: "например, my-feature",
+          baseBranchPlaceholder: "Поиск веток…",
+          baseBranchNone: "Ветки не найдены",
+          startWorkFailed: "Не удалось создать рабочее дерево",
+          convertBranch: "Преобразовать ветку…",
+          convertBranchTitle: "Преобразовать ветку",
+          convertBranchDesc: "Откройте уже извлечённые ветки или создайте рабочее дерево для свободной ветки.",
+          convertBranchPlaceholder: "Поиск веток…",
+          convertBranchInstead: "Преобразовать существующую ветку",
+          branchOpenExisting: "открыть",
+          branchSwitchHome: "переключить домой",
+          branchCreateWorktree: "новое рабочее дерево",
+          branchesLoading: "Загрузка веток…",
+          noBranches: "Ветки не найдены",
+          removeWorktree: "Удалить рабочее дерево",
+          removeWorktreeFailed: "Не удалось удалить рабочее дерево (есть незафиксированные изменения?)",
+          removeWorktreeConfirm: "Удалить из git (удалит директорию рабочего дерева; ветка сохранится) или только скрыть дорожку из боковой панели, оставив рабочее дерево на диске.",
+          removeWorktreeDirty: "В этом рабочем дереве есть незафиксированные изменения. Принудительно удалить (изменения будут потеряны) или только скрыть дорожку и оставить дерево на диске.",
+          forceRemove: "Удалить принудительно",
+          back: "Все проекты",
+          branchOff: () => ({ after: '', before: 'ответвить ' }),
+          enter: label => `Открыть ${label}`,
+          reorder: label => `Переупорядочить ${label}`,
+          toggle: label => `Переключить сессии ${label}`
     }
-  },
+},
 
   composer: {
     message: 'Сообщение',
@@ -1536,14 +1717,14 @@ export const ru = defineLocale({
       '/quit': 'выйти из Hermes'
     },
     hotkeyDescs: {
-      '@': 'ссылка на файлы, папки, URL, git',
-      '/': 'палитра слэш-команд',
-      '?': 'быстрая справка (удалите для закрытия)',
-      Enter: 'отправить · Shift+Enter для перевода строки',
-      'Cmd/Ctrl+Shift+K': 'отправить следующий ход из очереди',
-      'Cmd/Ctrl+/': 'все горячие клавиши',
-      Esc: 'закрыть всплывающее окно · отменить запуск',
-      '↑ / ↓': 'перебор всплывающего окна / истории'
+        "composer.mention": "ссылки на файлы, папки, URL, git",
+        "composer.slash": "палитра slash-команд",
+        "composer.help": "краткая справка (Delete чтобы закрыть)",
+        "composer.sendNewline": "отправить · Shift+Enter — новая строка",
+        "composer.sendQueued": "отправить следующий ход из очереди",
+        "keybinds.openPanel": "все сочетания клавиш",
+        "composer.cancel": "закрыть панель · отменить выполнение",
+        "composer.history": "переключить панель / история"
     },
     attachUrlTitle: 'Прикрепить URL',
     attachUrlDesc: 'Hermes загрузит страницу и включит её как контекст для этого хода.',
@@ -1597,8 +1778,16 @@ export const ru = defineLocale({
         description: 'Понятное объяснение выделенного кода или концепции.',
         text: 'Пожалуйста, объясни этот код или концепцию простыми словами.'
       }
-    }
-  },
+    },
+      speakReplies: "Озвучивать ответы",
+      stopSpeakingReplies: "Остановить чтение ответов вслух",
+      queueEdit: "Изменить",
+      queueSendNext: "Далее",
+      queueSend: "Отправить",
+      queueDelete: "Удалить",
+      queueStuckTitle: "Сообщение из очереди не отправлено",
+      queueStuckBody: "Несколько попыток отправить ход из очереди завершились ошибкой. Сообщение по-прежнему в очереди — попробуйте отправить его ещё раз."
+},
 
   updates: {
     stages: {
@@ -1609,7 +1798,11 @@ export const ru = defineLocale({
       pydeps: 'Завершение…',
       restart: 'Перезапуск Hermes…',
       manual: 'Обновление через терминал',
-      error: 'ошибка'
+      error: 'ошибка',
+        update: "Обновление Hermes…",
+        rebuild: "Пересборка приложения…",
+        done: "Обновление завершено",
+        guiSkew: "Обновить приложение"
     },
     checking: 'Проверка…',
     checkFailedTitle: 'Не удалось проверить обновления',
@@ -1716,7 +1909,11 @@ export const ru = defineLocale({
       local: {
         short: 'собственный хостинг',
         description: 'Запускайте модели локально через llama.cpp, Ollama или другие серверы вывода.'
-      }
+      },
+        fireworks: {
+            short: "прямой API моделей",
+            description: "Прямой доступ к моделям, размещённым на Fireworks AI."
+        }
     },
     backToSignIn: 'Назад ко входу',
     getKey: 'Получить ключ',
@@ -1729,7 +1926,6 @@ export const ru = defineLocale({
     flowSubtitles: {
       pkce: 'Открывает браузер для входа, затем продолжает здесь',
       device_code: 'Открывает страницу верификации в браузере — Hermes подключается автоматически',
-      loopback: 'Открывает браузер для входа — Hermes подключается автоматически',
       external: 'Войдите один раз в терминале, затем вернитесь к чату'
     },
     startingSignIn: provider => `Запуск входа для ${provider}…`,
@@ -1761,8 +1957,9 @@ export const ru = defineLocale({
     price: (input, output) => `${input} вх. / ${output} исх. за Мток.`,
     change: 'Изменить',
     startChatting: 'Начать',
-    docs: provider => `Документация ${provider}`
-  },
+    docs: provider => `Документация ${provider}`,
+      fireworksPitch: "Прямой API моделей — передовые модели на серверах Fireworks"
+},
 
   modelPicker: {
     title: 'Hermes не удалось запустить',
@@ -1796,7 +1993,8 @@ export const ru = defineLocale({
       noModels: 'Модели не найдены',
       editModels: 'Редактировать модели…',
       fast: 'Быстро',
-      medium: 'Средне'
+      medium: 'Средне',
+        refreshModels: "Обновить список моделей"
     },
     modelOptions: {
       noOptions: 'Нет опций для этой модели',
@@ -1810,7 +2008,9 @@ export const ru = defineLocale({
       high: 'Высокий',
       max: 'Макс.',
       updateFailed: 'Не удалось обновить опцию модели',
-      fastFailed: 'Не удалось обновить быстрый режим'
+      fastFailed: 'Не удалось обновить быстрый режим',
+        xhigh: "Очень высокий",
+        ultra: "Ультра"
     },
     gatewayMenu: {
       gateway: 'Шлюз',
@@ -1865,9 +2065,46 @@ export const ru = defineLocale({
       switchModel: 'Сменить модель',
       openModelPicker: 'Открыть выбор модели',
       modelTitle: (provider, model) => `Model · ${provider}: ${model}`,
-      providerModelTitle: (provider, model) => `${provider} · ${model}`
+      providerModelTitle: (provider, model) => `${provider} · ${model}`,
+        showTerminal: "Показать терминал",
+        hideTerminal: "Скрыть терминал",
+        gatewayRestarting: "перезапуск…",
+        starmap: "Граф памяти",
+        openStarmap: "Открыть граф памяти",
+        contextUsagePanel: {
+            categories: {
+                conversation: "Разговор",
+                mcp: "MCP",
+                memory: "Память",
+                rules: "Правила",
+                skills: "Навыки",
+                subagent_definitions: "Определения субагентов",
+                system_prompt: "Системный промпт",
+                tool_definitions: "Определения инструментов"
+            },
+            empty: "Данные контекста отсутствуют",
+            loading: "Загрузка разбивки…",
+            title: "Использование контекста",
+            percentFull: percent => `${percent}% заполнено`,
+            tokenSummary: (used, max) => `${used} / ${max} токенов`
+        },
+        openContextUsage: "Открыть разбивку использования контекста",
+        modelPinned: "закреплено вами; новые чаты используют эту модель вместо заданной в настройках",
+        backendVersion: version => `Бэкенд v${version}`,
+        clientLabel: version => `клиент v${version}`,
+        backendLabel: version => `бэкенд v${version}`
+    },
+      approvalMode: {
+          title: "Режим одобрения",
+          manual: "Ручной",
+          manualDescription: "Запрашивать подтверждение перед действиями, требующими одобрения",
+          smart: "Умный",
+          smartDescription: "Автоматически оценивать действия и запрашивать подтверждение при необходимости",
+          off: "Выключен",
+          offDescription: "Выполнять без запросов подтверждения",
+          ariaLabel: mode => `Режим одобрения: ${mode}`
     }
-  },
+},
 
   rightSidebar: {
     aria: 'Правая панель',
@@ -1893,8 +2130,18 @@ export const ru = defineLocale({
     tryAgain: 'Попробовать снова',
     loadingTree: 'Загрузка дерева файлов',
     loadingFiles: 'Загрузка файлов',
-    addToChat: 'Добавить в чат'
-  },
+    addToChat: 'Добавить в чат',
+      remotePickerTitle: "Выбор удалённой папки",
+      remotePickerDescription: "Просмотр папок на подключённом бэкенде.",
+      remotePickerSelect: "Выбрать папку",
+      noProjectOpen: "Проект не открыт",
+      noDiffs: "Нет изменений",
+      terminalHide: "Скрыть терминал",
+      terminalsAria: "Терминалы",
+      terminalNew: "Новый терминал",
+      terminalCloseOthers: "Закрыть остальные",
+      terminalCloseAll: "Закрыть все"
+},
 
   preview: {
     tab: 'Предпросмотр',
@@ -1972,8 +2219,22 @@ export const ru = defineLocale({
       unreachableDescription: 'Страницу предпросмотра не удалось достичь.',
       openTarget: url => `Открыть ${url}`,
       fallbackTitle: 'Предпросмотр'
-    }
-  },
+    },
+      closeOthers: "Закрыть остальные",
+      closeToRight: "Закрыть справа",
+      closeAll: "Закрыть все",
+      openInBrowser: "Открыть в браузере",
+      linkHint: "⌘/Ctrl-клик для открытия в панели предпросмотра",
+      diff: "DIFF",
+      edit: "Редактировать",
+      editing: "Редактирование",
+      unsavedChanges: "Несохранённые изменения",
+      diskChangedTitle: "Файл изменён на диске",
+      diskChangedBody: "Файл изменился с момента открытия. Перезаписать его своей версией или отменить правки и перезагрузить?",
+      overwrite: "Перезаписать",
+      discardReload: "Отменить и перезагрузить",
+      saveFailed: message => `Не удалось сохранить: ${message}`
+},
 
   assistant: {
     thread: {
@@ -2031,7 +2292,8 @@ export const ru = defineLocale({
       other: 'Другое (введите ваш ответ)',
       placeholder: 'Введите ваш ответ…',
       skip: 'Пропустить',
-      continueLabel: 'Продолжить'
+      continueLabel: 'Продолжить',
+        skipped: "Пропущено"
     },
     tool: {
       code: 'Код',
@@ -2187,8 +2449,9 @@ export const ru = defineLocale({
       systemNote: platform => `Передача сессии инициирована на ${platform}.`,
       failed: error => `Ошибка передачи: ${error}`,
       timedOut: 'Время ожидания передачи истекло'
-    }
-  },
+    },
+      resumeFailed: "Не удалось возобновить"
+},
 
   errors: {
     genericFailure: 'Что-то пошло не так',
@@ -2214,5 +2477,103 @@ export const ru = defineLocale({
       description: 'Боковая панель содержит сессии, навыки, мессенджеры и артефакты.',
       toggle: 'Переключить боковую панель'
     }
-  }
+  },
+    statusStack: {
+        agents: "Агенты",
+        running: "Выполняется",
+        stop: "Стоп",
+        dismiss: "Закрыть",
+        coding: {
+            title: "Рабочее дерево",
+            noBranch: "Нет ветки",
+            detached: "отсоединён",
+            clean: "Чисто",
+            review: "Обзор",
+            close: "Закрыть",
+            openChanges: "Открыть изменения",
+            openFile: "Открыть файл",
+            stage: "Добавить",
+            unstage: "Убрать из индекса",
+            stageAll: "Добавить все",
+            viewAsTree: "Показать деревом",
+            viewAsList: "Показать списком",
+            revert: "Откатить",
+            revertAll: "Откатить всё",
+            revertConfirm: "Отменить изменения в этом файле и восстановить его до последнего коммита? Это действие нельзя отменить.",
+            revertAllConfirm: "Отменить все изменения и восстановить файлы до состояния последнего коммита? Это действие нельзя отменить.",
+            staged: "В индексе",
+            noChanges: "Нет изменений",
+            notRepo: "Не является git-репозиторием",
+            noDiff: "Нет изменений для отображения",
+            scopeUncommitted: "Незафиксированные",
+            scopeBranch: "Ветка",
+            scopeLastTurn: "Последний шаг",
+            commit: "Коммит",
+            commitAndPush: "Коммит и пуш",
+            commitPlaceholder: "Сообщение (⌘↵ для коммита)",
+            generateCommitMessage: "Сгенерировать сообщение коммита",
+            stopGenerating: "Остановить генерацию",
+            createPr: "Создать PR",
+            openPr: "Открыть PR",
+            ghMissing: "Установите GitHub CLI (gh) и войдите, чтобы открывать PR",
+            agentShip: "Попросить Hermes открыть PR",
+            agentShipPrompt: "Проверь текущие изменения, сделай коммит с чётким сообщением в стиле conventional commits, отправь ветку и открой pull request.",
+            newBranch: "Новая ветка",
+            worktrees: "Рабочие деревья",
+            changed: count => `${count} изменено`,
+            ahead: count => `${count} впереди`,
+            behind: count => `${count} позади`,
+            branchOffFrom: base => `Новая ветка от ${base}`,
+            switchTo: branch => `Переключиться на ${branch}`,
+            switchFailed: branch => `Не удалось переключиться на ${branch}`
+        },
+        background: count => `${count} фоновых`,
+        subagents: count => `${count} субагент${count === 1 ? '' : 'ов'}`,
+        todos: (done, total) => `Задачи ${done}/${total}`,
+        exit: code => `exit ${code}`
+    },
+    zones: {
+        showHeader: "Показать заголовок",
+        hideHeader: "Скрыть заголовок",
+        minimize: "Свернуть",
+        restore: "Восстановить",
+        closeRunningTitle: "Закрыть активную вкладку?",
+        closeRunningBody: "Этот чат ещё работает (или ожидает вашего ответа). Закрытие вкладки скроет её — сессия сохранит прогресс и её можно будет снова открыть из боковой панели.",
+        closeRunningConfirm: "Закрыть вкладку",
+        closeOthers: "Закрыть остальные",
+        closeToRight: "Закрыть справа",
+        closeAll: "Закрыть все",
+        dirUp: "вверх",
+        dirDown: "вниз",
+        dirLeft: "влево",
+        dirRight: "вправо",
+        pluginDisabledBody: "Включите его в Настройки → Плагины, чтобы вернуть панель.",
+        editTitle: "Макеты",
+        editHint: "Выберите макет или перетащите панели между зонами. Правой кнопкой по зоне — разделить.",
+        reset: "Сбросить",
+        templates: "Шаблоны",
+        custom: "Произвольный",
+        newGridLayout: "Новый макет сетки",
+        saveCurrentAs: "Сохранить текущий макет как шаблон",
+        nameLayoutPlaceholder: "Название макета…",
+        zoneEditorTitle: "Редактор зон",
+        editorHintPre: "клик — разделить · ",
+        editorHintPost: " — переключить направление · перетащить через зоны — объединить · тянуть общий край — изменить размер",
+        templateColumns: "Столбцы",
+        templateRows: "Строки",
+        templateGrid: "Сетка",
+        templatePriority: "Приоритет",
+        saveApply: "Сохранить и применить",
+        notExpressible: "этот макет взаимозависим (вертушка) — вложенные разделения пока не поддерживаются",
+        split: dir => `Разделить ${dir}`,
+        move: dir => `Переместить ${dir}`,
+        pluginDisabled: pluginId => `Плагин «${pluginId}» отключён`,
+        missingPane: paneId => `панель не найдена: ${paneId}`,
+        deletePreset: name => `Удалить ${name}`,
+        zoneTag: index => `зона ${index}`,
+        mergeZones: count => `Объединить зоны: ${count}`,
+        customZoneName: count => `Пользовательская ${count}-зонная`,
+        layoutNamePlaceholder: fallback => `Имя макета (${fallback})`,
+        zoneCount: count => `${count} зоны`
+    }
 })
