@@ -1,90 +1,109 @@
-# Hermes Agent — Русская локализация
-# Установщик для Windows (PowerShell)
-# Использование: powershell -ExecutionPolicy Bypass -File install.ps1
+﻿# Hermes Agent — русская локализация рабочего стола (Desktop)
+# Запуск:            powershell -ExecutionPolicy Bypass -File install.ps1
+# Ручной путь:       powershell -ExecutionPolicy Bypass -File install.ps1 -Path "C:\путь\к\hermes-agent"
+#
+# Безопасно: идемпотентно (повторный запуск ничего не дублирует), устойчиво к любому
+# набору уже установленных языков, перед изменением каждого файла делает <файл>.bak.
 
+param([string]$Path)
 $ErrorActionPreference = "Stop"
 
-Write-Host "`n🇷🇺 Hermes Agent — Русская локализация`n" -ForegroundColor Cyan
+Write-Host "`n=== Hermes Desktop - русская локализация ===`n" -ForegroundColor Cyan
 
-# 1. Найти установку Hermes
-$hermesBin = Get-Command hermes -ErrorAction SilentlyContinue
-if (-not $hermesBin) {
-    $hermesDir = "$env:LOCALAPPDATA\hermes\hermes-agent"
-} else {
-    $hermesDir = Split-Path (Split-Path $hermesBin.Source)
+# --- 1. Найти десктопный i18n (папка с catalog.ts + define-locale.ts + en.ts) ---
+function Find-DesktopI18n($root) {
+  if (-not (Test-Path $root)) { return $null }
+  Get-ChildItem -Path $root -Recurse -Filter "catalog.ts" -ErrorAction SilentlyContinue |
+    Where-Object {
+      $d = $_.DirectoryName
+      ($d -match 'desktop') -and (Test-Path (Join-Path $d 'define-locale.ts')) -and (Test-Path (Join-Path $d 'en.ts'))
+    } |
+    Select-Object -First 1 -ExpandProperty DirectoryName
 }
 
-$i18nDir = "$hermesDir\apps\desktop\src\i18n"
-$settingsDir = "$hermesDir\apps\desktop\src\app\settings"
+$roots = @()
+if ($Path) { $roots += $Path }
+$hc = Get-Command hermes -ErrorAction SilentlyContinue
+if ($hc) { $roots += (Split-Path (Split-Path $hc.Source)) }
+$roots += "$env:LOCALAPPDATA\hermes\hermes-agent"
 
-if (-not (Test-Path $i18nDir)) {
-    Write-Host "❌ Hermes не найден в $hermesDir" -ForegroundColor Red
-    Write-Host "Укажите путь вручную: .\install.ps1 -Path C:\path\to\hermes-agent"
-    exit 1
+$i18nDir = $null
+foreach ($r in $roots) { $i18nDir = Find-DesktopI18n $r; if ($i18nDir) { break } }
+
+if (-not $i18nDir) {
+  Write-Host "[X] Не найден десктопный i18n Hermes (catalog.ts + define-locale.ts)." -ForegroundColor Red
+  Write-Host "    Укажите путь вручную:  .\install.ps1 -Path `"C:\путь\к\hermes-agent`""
+  exit 1
 }
+$srcDir      = Split-Path $i18nDir       # ...\src
+$desktopDir  = Split-Path $srcDir        # ...\apps\desktop (или аналог)
+$settingsDir = Join-Path $srcDir 'app\settings'
+Write-Host "[OK] Найдено: $i18nDir" -ForegroundColor Green
 
-Write-Host "✅ Hermes найден: $hermesDir" -ForegroundColor Green
-
-# 2. Копируем файлы перевода
 $scriptDir = Split-Path $MyInvocation.MyCommand.Path
-Copy-Item "$scriptDir\ru.ts" "$i18nDir\ru.ts" -Force
-Copy-Item "$scriptDir\ru-constants.ts" "$settingsDir\ru-constants.ts" -Force
-Write-Host "✅ Файлы ru.ts и ru-constants.ts скопированы" -ForegroundColor Green
+function Backup($f) { if ((Test-Path $f) -and -not (Test-Path "$f.bak")) { Copy-Item $f "$f.bak" } }
+function WriteUtf8($f, $text) { [IO.File]::WriteAllText($f, $text, (New-Object System.Text.UTF8Encoding $false)) }
+# ЕДИНСТВЕННАЯ замена (в PowerShell у [regex]::Replace 4-й аргумент — это RegexOptions, а не count!)
+function ReplaceOnce($text, $pattern, [scriptblock]$fn) {
+  $ev = [System.Text.RegularExpressions.MatchEvaluator]$fn
+  return ([regex]::new($pattern)).Replace($text, $ev, 1)
+}
 
-# 3. Патчим types.ts — добавляем 'ru' в Locale
-$typesFile = "$i18nDir\types.ts"
-$typesContent = Get-Content $typesFile -Raw
-if ($typesContent -notmatch "'ru'") {
-    $typesContent = $typesContent -replace "export type Locale = 'en' \| 'zh' \| 'zh-hant' \| 'ja'", "export type Locale = 'en' | 'zh' | 'zh-hant' | 'ja' | 'ru'"
-    $typesContent | Set-Content $typesFile -NoNewline
-    Write-Host "✅ types.ts пропатчен" -ForegroundColor Green
+# --- 2. Копируем файлы перевода ---
+Copy-Item "$scriptDir\ru.ts" (Join-Path $i18nDir 'ru.ts') -Force
+Write-Host "[OK] ru.ts скопирован" -ForegroundColor Green
+if (Test-Path $settingsDir) {
+  Copy-Item "$scriptDir\ru-constants.ts" (Join-Path $settingsDir 'ru-constants.ts') -Force
+  Write-Host "[OK] ru-constants.ts скопирован" -ForegroundColor Green
 } else {
-    Write-Host "⏭ types.ts уже содержит 'ru'" -ForegroundColor Yellow
+  Write-Host "[!] Папка settings не найдена - лейблы настроек останутся английскими" -ForegroundColor Yellow
 }
 
-# 4. Патчим languages.ts — добавляем ru в LOCALE_OPTIONS и алиасы
-$langFile = "$i18nDir\languages.ts"
-$langContent = Get-Content $langFile -Raw
-if ($langContent -notmatch "id: 'ru'") {
-    $langContent = $langContent -replace "(    id: 'ja',[\s\S]*?configValue: 'ja'\s+  })", "`$1,`n  {`n    id: 'ru',`n    name: 'Русский',`n    englishName: 'Russian',`n    configValue: 'ru'`n  }"
-    $langContent | Set-Content $langFile -NoNewline
-    Write-Host "✅ languages.ts — добавлен ru в LOCALE_OPTIONS" -ForegroundColor Green
-}
-if ($langContent -notmatch "'ru-ru'") {
-    $langContent = $langContent -replace "(  ja_jp: 'ja'[\s\S]*?})", "`$1,`n  ru: 'ru',`n  'ru-ru': 'ru',`n  ru_ru: 'ru',`n  'русский': 'ru'`n}"
-    $langContent | Set-Content $langFile -NoNewline
-    Write-Host "✅ languages.ts — добавлены алиасы" -ForegroundColor Green
-} else {
-    Write-Host "⏭ languages.ts уже настроен" -ForegroundColor Yellow
+# --- 3. Идемпотентные патчи регистрации ---
+function Patch($file, $skipPattern, [scriptblock]$fn) {
+  $name = Split-Path $file -Leaf
+  if (-not (Test-Path $file)) { Write-Host "[!] нет $name" -ForegroundColor Yellow; return }
+  $c = Get-Content $file -Raw -Encoding UTF8
+  if ($c -match $skipPattern) { Write-Host "[=] $name уже настроен" -ForegroundColor DarkGray; return }
+  Backup $file
+  $new = & $fn $c
+  if ($new -and ($new -ne $c)) { WriteUtf8 $file $new; Write-Host "[OK] $name пропатчен" -ForegroundColor Green }
+  else { Write-Host "[!] не удалось пропатчить $name (структура изменилась) - проверьте вручную" -ForegroundColor Yellow }
 }
 
-# 5. Патчим catalog.ts — регистрируем ru
-$catalogFile = "$i18nDir\catalog.ts"
-$catalogContent = Get-Content $catalogFile -Raw
-if ($catalogContent -notmatch "import { ru }") {
-    $catalogContent = $catalogContent -replace "(import { zhHant } from '\./zh-hant')", "`$1`nimport { ru } from './ru'"
-    $catalogContent = $catalogContent -replace "(  zh,)", "`$1`n  ru,"
-    $catalogContent | Set-Content $catalogFile -NoNewline
-    Write-Host "✅ catalog.ts пропатчен" -ForegroundColor Green
-} else {
-    Write-Host "⏭ catalog.ts уже содержит ru" -ForegroundColor Yellow
+# types.ts: добавить 'ru' в объединение Locale (в конец строки, к любому набору языков)
+Patch (Join-Path $i18nDir 'types.ts') "\|\s*'ru'" {
+  param($c)
+  ReplaceOnce $c "(export type Locale\s*=[^\r\n]*?)(\r?\n)" { param($m) $m.Groups[1].Value + " | 'ru'" + $m.Groups[2].Value }
 }
 
-# 6. Собираем
-Write-Host "`n🔨 Сборка десктопного приложения..." -ForegroundColor Cyan
-Push-Location "$hermesDir\apps\desktop"
+# catalog.ts: импорт ru + запись ru в объект TRANSLATIONS
+Patch (Join-Path $i18nDir 'catalog.ts') "import \{ ru \}" {
+  param($c)
+  $c = ReplaceOnce $c "(import [^\r\n]+ from '\./[^']+'\r?\n)" { param($m) $m.Value + "import { ru } from './ru'`n" }
+  $c = ReplaceOnce $c "(TRANSLATIONS[^{]*\{[\s\S]*?)(\r?\n\})" { param($m) $m.Groups[1].Value + ",`n  ru" + $m.Groups[2].Value }
+  $c
+}
+
+# languages.ts: запись в LOCALE_OPTIONS + алиасы в LOCALE_ALIASES
+Patch (Join-Path $i18nDir 'languages.ts') "id:\s*'ru'" {
+  param($c)
+  $entry = "  {`n    id: 'ru',`n    name: 'Русский',`n    englishName: 'Russian',`n    configValue: 'ru'`n  }"
+  $c = ReplaceOnce $c "(\r?\n)(\] as const)" { param($m) "," + $m.Groups[1].Value + $entry + $m.Groups[1].Value + $m.Groups[2].Value }
+  $c = ReplaceOnce $c "(LOCALE_ALIASES[^{]*\{[\s\S]*?)(\r?\n\})" { param($m) $m.Groups[1].Value + ",`n  ru: 'ru',`n  'ru-ru': 'ru',`n  ru_ru: 'ru',`n  'русский': 'ru'" + $m.Groups[2].Value }
+  $c
+}
+
+# --- 4. Сборка ---
+Write-Host "`nСборка десктопа (может занять пару минут)..." -ForegroundColor Cyan
+Push-Location $desktopDir
 try {
-    npm run build 2>&1 | Select-Object -Last 3
-    Write-Host "✅ Сборка завершена" -ForegroundColor Green
+  $log = & npm run build 2>&1
+  if ($LASTEXITCODE -eq 0) { Write-Host "[OK] Сборка завершена" -ForegroundColor Green }
+  else { $log | Select-Object -Last 6; throw "npm build вернул код $LASTEXITCODE" }
 } catch {
-    Write-Host "⚠ Сборка через npm не удалась, но файлы перевода установлены" -ForegroundColor Yellow
-    Write-Host "  Выполните вручную: cd $hermesDir\apps\desktop && npm run build"
-} finally {
-    Pop-Location
-}
+  Write-Host "[!] Автосборка не удалась. Файлы уже установлены; соберите вручную:" -ForegroundColor Yellow
+  Write-Host "    cd `"$desktopDir`"; npm install; npm run build"
+} finally { Pop-Location }
 
-Write-Host "`n========================================" -ForegroundColor Cyan
-Write-Host "🇷🇺 Русская локализация установлена!" -ForegroundColor Green
-Write-Host "Перезапустите Hermes Desktop и выберите:" -ForegroundColor White
-Write-Host "  Settings → Appearance → Русский" -ForegroundColor Cyan
-Write-Host "========================================" -ForegroundColor Cyan
+Write-Host "`n=== Готово. Перезапустите Hermes -> Settings -> Appearance -> Русский ===`n" -ForegroundColor Cyan
